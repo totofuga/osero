@@ -1,0 +1,7 @@
+*.swp
+*.swo
+inc/*
+META.yml
+MYMETA.json
+MYMETA.yml
+Makefile
