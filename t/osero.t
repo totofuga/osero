@@ -21,8 +21,23 @@ is($osero->get_rival_turn, Osero::WHITE);
 ok(  $osero->can_drop(3, 2));
 ok(! $osero->can_drop(2, 2));
 
-# 駒のひっくり返り確認
-$osero->reverse(3,2);
+# 駒を置く
+is($osero->drop(3,2), 1);
+is($osero->get_board()->[3][2], Osero::BLACK);
 is($osero->get_board()->[3][3], Osero::BLACK);
+
+ok(! $osero->is_end());
+
+# すべて黒にする
+$osero->get_board()->[4][4] = Osero::BLACK;
+ok($osero->is_end());
+
+# すべて埋め尽くす
+for my $x (0..7) {
+    for my $y (0..7) {
+        $osero->get_board()->[$x][$y] = ($x + $y) % 2 == 0 ? Osero::BLACK : Osero::WHITE;
+    }
+}
+ok($osero->is_end());
 
 done_testing;

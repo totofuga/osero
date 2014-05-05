@@ -53,7 +53,6 @@ sub new {
 オセロ版を初期化する
 
 =cut
-
 sub initialize {
     my ($self) = @_;
 
@@ -86,6 +85,25 @@ sub get_rival_turn {
     return $self->get_turn == BLACK ? WHITE : BLACK;
 }
 
+
+=head2 drop
+
+駒を置く
+
+=cut
+sub drop {
+    my ($self, $x, $y) = @_;
+
+    return 0 unless $self->can_drop($x, $y);
+
+    # 駒を返す
+    $self->reverse($x, $y);
+
+    # 駒を置く
+    $self->get_board()->[$x][$y] = $self->get_turn();
+
+    return 1;
+}
 
 =head2 can_drop
 
@@ -130,6 +148,30 @@ sub reverse {
     $self->_reverse_vec($x, $y, -1,  1) if $self->_can_drop_vec($x, $y, -1,  1); # 左下
     $self->_reverse_vec($x, $y,  0,  1) if $self->_can_drop_vec($x, $y,  0,  1); # 下
     $self->_reverse_vec($x, $y,  1,  1) if $self->_can_drop_vec($x, $y,  1,  1); # 右下
+}
+
+=head2 is_end
+
+終了判定
+
+=cut 
+sub is_end {
+    my ($self) = @_;
+
+    my $has_color = {
+        +Osero::BLANK => 0,
+        +Osero::BLACK => 0,
+        +Osero::WHITE => 0,
+    };
+    foreach my $x ( 0..7 ) {
+        foreach my $y (0..7) {
+            $has_color->{ $self->get_board()->[$x][$y] } = 1;
+        }
+    }
+
+    return !$has_color->{+Osero::BLANK} ||
+           !$has_color->{+Osero::BLACK} || 
+           !$has_color->{+Osero::WHITE};
 }
 
 =head2 reverse
