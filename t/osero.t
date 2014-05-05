@@ -21,4 +21,8 @@ is($osero->get_rival_turn, Osero::WHITE);
 ok(  $osero->can_drop(3, 2));
 ok(! $osero->can_drop(2, 2));
 
+# 駒のひっくり返り確認
+$osero->reverse(3,2);
+is($osero->get_board()->[3][3], Osero::BLACK);
+
 done_testing;

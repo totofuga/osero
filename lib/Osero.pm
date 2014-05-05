@@ -113,6 +113,47 @@ sub can_drop {
     return 0;
 }
 
+=head2 reverse
+
+駒を置いた位置から八方向にひっくり返せる駒をひっくり返す
+
+=cut 
+sub reverse {
+    my ($self, $x, $y) = @_;
+
+    # ひっくり返せるところをひっくり返す
+    $self->_reverse_vec($x, $y, -1, -1) if $self->_can_drop_vec($x, $y, -1, -1); # 左上 
+    $self->_reverse_vec($x, $y,  0, -1) if $self->_can_drop_vec($x, $y,  0, -1); # 上 
+    $self->_reverse_vec($x, $y,  1, -1) if $self->_can_drop_vec($x, $y,  1, -1); # 右上
+    $self->_reverse_vec($x, $y, -1,  0) if $self->_can_drop_vec($x, $y, -1,  0); # 左
+    $self->_reverse_vec($x, $y,  1,  0) if $self->_can_drop_vec($x, $y,  1,  0); # 右
+    $self->_reverse_vec($x, $y, -1,  1) if $self->_can_drop_vec($x, $y, -1,  1); # 左下
+    $self->_reverse_vec($x, $y,  0,  1) if $self->_can_drop_vec($x, $y,  0,  1); # 下
+    $self->_reverse_vec($x, $y,  1,  1) if $self->_can_drop_vec($x, $y,  1,  1); # 右下
+}
+
+=head2 reverse
+
+指定した方向の駒をひっくり返す
+
+=cut 
+sub _reverse_vec {
+    my ($self, $x, $y, $dx, $dy) = @_;
+
+    my $tx = $x;
+    my $ty = $y;
+
+    while (1) {
+        $tx += $dx;
+        $ty += $dy;
+
+        # 相手の駒じゃなければそこで終了
+        last unless $self->get_board()->[$tx][$ty] == $self->get_rival_turn;
+            
+        $self->get_board()->[$tx][$ty] = $self->get_turn;
+    }
+}
+
 =head2 _can_drop_vec
 
 指定した方向に対して駒を置けるか調べる
