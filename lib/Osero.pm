@@ -13,7 +13,7 @@ use constant {
 };
 
 __PACKAGE__->follow_best_practice();
-__PACKAGE__->mk_accessors('board');
+__PACKAGE__->mk_accessors(qw{ board turn });
 
 
 =head1 NAME
@@ -57,7 +57,7 @@ sub new {
 sub initialize {
     my ($self) = @_;
 
-    # とりあえずブランク設定
+    # まずすべてをブランク設定
     my $board = [];
     foreach my $x ( 0..7 ) {
         foreach my $y ( 0..7 ) {
@@ -69,7 +69,102 @@ sub initialize {
     $board->[3][3] = $board->[4][4] = WHITE; 
     $board->[3][4] = $board->[4][3] = BLACK; 
 
+    # 手番を黒に設定
+    $self->set_turn(BLACK);
+
     $self->set_board($board);
+}
+
+=head2 get_rival_turn
+
+相手の駒の色
+
+=cut
+sub get_rival_turn {
+    my ($self) = @_;
+
+    return $self->get_turn == BLACK ? WHITE : BLACK;
+}
+
+
+=head2 can_drop
+
+その位置に駒を置けるか確認
+
+=cut
+sub can_drop {
+    my ($self, $x, $y) = @_;
+
+    # 有効性とblank確認
+    return 0 unless $self->_is_available_pos($x, $y);
+    return 0 unless $self->get_board->[$x][$y] == BLANK;
+
+    # ８方向に相手の駒が変わるか確認
+    return 1 if $self->_can_drop_vec($x, $y, -1, -1); # 左上 
+    return 1 if $self->_can_drop_vec($x, $y,  0, -1); # 上 
+    return 1 if $self->_can_drop_vec($x, $y,  1, -1); # 右上
+    return 1 if $self->_can_drop_vec($x, $y, -1,  0); # 左
+    return 1 if $self->_can_drop_vec($x, $y,  1,  0); # 右
+    return 1 if $self->_can_drop_vec($x, $y, -1,  1); # 左下
+    return 1 if $self->_can_drop_vec($x, $y,  0,  1); # 下
+    return 1 if $self->_can_drop_vec($x, $y,  1,  1); # 右下
+
+    # どこも変わらなければ無効
+    return 0;
+}
+
+=head2 _can_drop_vec
+
+指定した方向に対して駒を置けるか調べる
+
+=cut
+sub _can_drop_vec {
+    my ($self, $x, $y, $dx, $dy) = @_;
+
+    my $tx = $x;
+    my $ty = $y;
+
+    # 有効性確認
+    return 0 unless $self->_is_available_pos($tx, $ty);
+    # 置く位置はBLANKで無ければいけない
+    return 0 unless $self->get_board()->[$tx][$ty] == BLANK;
+
+    # 一つ先の位置
+    $tx += $dx;
+    $ty += $dy;
+
+    # 有効性確認
+    return 0 unless $self->_is_available_pos($tx, $ty);
+    # 一つ先は相手の駒
+    return 0 unless $self->get_board()->[$tx][$ty] == $self->get_rival_turn();
+
+    while (1) {
+        $tx += $dx;
+        $ty += $dy;
+
+        # 有効性確認
+        return 0 unless $self->_is_available_pos($tx, $ty);
+
+        # 相手の駒だった場合はもう一つ先をみる
+        next if $self->get_board()->[$tx][$ty] == $self->get_rival_turn();
+
+        # 自分の駒で挟んでいる場合は有効
+        return 1 if $self->get_board()->[$tx][$ty] == $self->get_turn();
+
+        # それ以外は無効
+        return 0;
+    }
+}
+
+=head2 _is_available_pos
+
+指定された座標が盤内かを調べる
+
+=cut
+sub _is_available_pos {
+    my ($self, $x, $y) = @_;
+
+    return $x >= 0 && $y >= 0 && $x < 8 && $y < 8;
 }
 
 =head1 AUTHOR
