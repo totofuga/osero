@@ -29,8 +29,7 @@ build_requires (
 );
 
 requires (
-   #'ABC'              => 1.6,
-   #'Foo::Bar::Module' => 5.0401,
+   'Class::Accessor::Fast' => 0.34,
 );
 
 install_as_cpan;

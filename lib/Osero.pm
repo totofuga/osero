@@ -4,6 +4,18 @@ use 5.006;
 use strict;
 use warnings FATAL => 'all';
 
+use base qw(Class::Accessor::Fast);
+
+use constant {
+    BLANK => 0,
+    WHITE => 1,
+    BLACK => 2,
+};
+
+__PACKAGE__->follow_best_practice();
+__PACKAGE__->mk_accessors('board');
+
+
 =head1 NAME
 
 Osero - The great new Osero!
@@ -19,34 +31,45 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+オセロクラス
 
-Perhaps a little code snippet.
+=head2 new
 
-    use Osero;
-
-    my $foo = Osero->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
+インスタンス生成
 
 =cut
 
-sub function1 {
+sub new {
+    my $class = shift;
+    my $self = $class->SUPER::new(@_);
+
+    $self->initialize();
+
+    return $self;
 }
 
-=head2 function2
+=head2 initialize
+
+オセロ版を初期化する
 
 =cut
 
-sub function2 {
+sub initialize {
+    my ($self) = @_;
+
+    # とりあえずブランク設定
+    my $board = [];
+    foreach my $x ( 0..7 ) {
+        foreach my $y ( 0..7 ) {
+            $board->[$x][$y] =0; 
+        }
+    }
+
+    # 初期駒配置
+    $board->[3][3] = $board->[4][4] = WHITE; 
+    $board->[3][4] = $board->[4][3] = BLACK; 
+
+    $self->set_board($board);
 }
 
 =head1 AUTHOR
