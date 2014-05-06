@@ -252,7 +252,7 @@ sub _is_available_pos {
 
 =head1 AUTHOR
 
-藤田善光, C<< <fujita.yoshihiko at gmail.com> >>
+fujita.yoshihiko, C<< <fujita.yoshihiko at gmail.com> >>
 
 =head1 BUGS
 
