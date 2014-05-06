@@ -5,7 +5,7 @@ use inc::Module::Install;
 
 name     'osero';
 all_from 'lib/Osero.pm';
-author   q{藤田善光 <fujita.yoshihiko@gmail.com>};
+author   q{fujit yoshihiko <fujita.yoshihiko@gmail.com>};
 license  'artistic2';
 
 perl_version 5.006;
@@ -16,7 +16,7 @@ resources (
    #homepage   => 'http://yourwebsitehere.com',
    #IRC        => 'irc://irc.perl.org/#osero',
    license    => 'http://www.perlfoundation.org/artistic_license_2_0',
-   #repository => 'git://github.com/藤田善光/osero.git',
+   #repository => 'git://github.com/totofuga/osero.git',
    bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=osero',
 );
 
