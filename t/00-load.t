@@ -7,7 +7,7 @@ use Test::More;
 plan tests => 1;
 
 BEGIN {
-    use_ok( 'Osero' ) || print "Bail out!\n";
+    use_ok( 'Game::Osero' ) || print "Bail out!\n";
 }
 
-diag( "Testing Osero $Osero::VERSION, Perl $], $^X" );
+diag( "Testing Game::Osero $Game::Osero::VERSION, Perl $], $^X" );

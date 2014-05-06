@@ -1,4 +1,4 @@
-package Osero;
+package Game::Osero;
 
 use 5.006;
 use strict;
@@ -18,7 +18,7 @@ __PACKAGE__->mk_accessors(qw{ board turn });
 
 =head1 NAME
 
-Osero - The great new Osero!
+Game::Osero - The great new Game::Osero!
 
 =head1 VERSION
 
@@ -159,9 +159,9 @@ sub is_end {
     my ($self) = @_;
 
     my $has_color = {
-        +Osero::BLANK => 0,
-        +Osero::BLACK => 0,
-        +Osero::WHITE => 0,
+        +BLANK => 0,
+        +BLACK => 0,
+        +WHITE => 0,
     };
     foreach my $x ( 0..7 ) {
         foreach my $y (0..7) {
@@ -169,9 +169,9 @@ sub is_end {
         }
     }
 
-    return !$has_color->{+Osero::BLANK} ||
-           !$has_color->{+Osero::BLACK} || 
-           !$has_color->{+Osero::WHITE};
+    return !$has_color->{+BLANK} ||
+           !$has_color->{+BLACK} || 
+           !$has_color->{+WHITE};
 }
 
 =head2 reverse
@@ -267,7 +267,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Osero
+    perldoc Game::Osero
 
 
 You can also look for information at:
@@ -339,4 +339,4 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 =cut
 
-1; # End of Osero
+1; # End of Game::Osero

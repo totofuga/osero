@@ -4,7 +4,7 @@ use warnings FATAL => 'all';
 use inc::Module::Install;
 
 name     'osero';
-all_from 'lib/Osero.pm';
+all_from 'lib/Game/Osero.pm';
 author   q{fujit yoshihiko <fujita.yoshihiko@gmail.com>};
 license  'artistic2';
 
