@@ -48,6 +48,25 @@ sub new {
     return $self;
 }
 
+=head2 get_can_drop_pos
+
+置けるところを配列で取得する
+
+=cut 
+sub get_can_drop_pos {
+    my ($self) = @_;
+
+    # まずすべてをブランク設定
+    my @can_drop_pos;
+    foreach my $x ( 0..7 ) {
+        foreach my $y ( 0..7 ) {
+            push @can_drop_pos, [$x, $y] if $self->can_drop($x, $y);
+        }
+    }
+
+    return \@can_drop_pos;
+}
+
 =head2 initialize
 
 オセロ版を初期化する
