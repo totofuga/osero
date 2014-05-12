@@ -50,4 +50,20 @@ for my $x (0..7) {
 }
 ok($osero->is_end());
 
+# 黒が置けないボードを作る
+for my $x (0..7) {
+    for my $y (0..7) {
+        $osero->get_board()->[$x][$y] = Game::Osero::BLANK;
+    }
+}
+
+$osero->get_board()->[0][0] = Game::Osero::WHITE;
+$osero->get_board()->[1][0] = Game::Osero::BLACK;
+$osero->set_turn(Game::Osero::BLACK);
+
+is( $osero->can_drop(), 0);
+
+$osero->initialize();
+is( $osero->can_drop(), 1);
+
 done_testing;

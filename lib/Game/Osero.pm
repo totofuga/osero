@@ -132,6 +132,15 @@ sub drop {
 sub can_drop {
     my ($self, $x, $y) = @_;
 
+    if ( @_ == 1 ) {
+        foreach $x ( 0..7 ) {
+            foreach $y ( 0..7 ) {
+                return 1 if $self->can_drop($x, $y);
+            }
+        }
+        return 0;
+    }
+
     # 有効性とblank確認
     return 0 unless $self->_is_available_pos($x, $y);
     return 0 unless $self->get_board->[$x][$y] == BLANK;
