@@ -115,10 +115,10 @@ sub initialize {
     $self->set_openrate($openrate);
 
     # 初期配置の開放度設定
-    $self->_drop_openrate(3, 3);
-    $self->_drop_openrate(4, 3);
-    $self->_drop_openrate(3, 4);
-    $self->_drop_openrate(4, 4);
+    $self->drop_openrate(3, 3);
+    $self->drop_openrate(4, 3);
+    $self->drop_openrate(3, 4);
+    $self->drop_openrate(4, 4);
 
     # 手番を黒に設定
     $self->set_turn(BLACK);
@@ -154,7 +154,7 @@ sub drop {
     $self->get_board()->[$x][$y] = $self->get_turn();
 
     # 開放度更新
-    $self->_drop_openrate($x, $y);
+    $self->drop_openrate($x, $y);
 
     return 1;
 }
@@ -313,12 +313,12 @@ sub _is_available_pos {
     return $x >= 0 && $y >= 0 && $x < 8 && $y < 8;
 }
 
-=head2 _drop_openrate
+=head2 drop_openrate
 
 開放度更新
 
 =cut
-sub _drop_openrate {
+sub drop_openrate {
     my ($self, $x, $y) = @_;
 
     -- $self->get_openrate->[$x - 1][$y - 1] if $self->_is_available_pos($x - 1, $y - 1);
